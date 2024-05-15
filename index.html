@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto de Aplicación Nutritiva</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace al archivo CSS -->
+    <link rel="icon" type="image/x-icon" href="/HTML/favicon.png"> <!-- Favicon -->
+    <!-- Enlace a Highlight.js para resaltar código que introduzca (apartado de Base de datos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>
+        // Función para mostrar la sección correcta y ocultar todas las demás
+        function mostrarSeccion(id) {
+            // Ocultar la portada inicial
+            const portada = document.getElementById("portada");
+            portada.style.display = "none"; // Ocultar la portada
+
+            // Ocultar todas las secciones de contenido
+            const secciones = document.querySelectorAll('.content');
+            secciones.forEach(seccion => seccion.style.display = 'none');
+
+            // Mostrar la sección seleccionada
+            const seccionSeleccionada = document.getElementById(id);
+            seccionSeleccionada.style.display = 'block';
+        }
+
+        // Al cargar la página, muestra solo la portada
+        document.addEventListener('DOMContentLoaded', () => {
+            mostrarSeccion('portada');
+            hljs.highlightAll(); // Iniciar Highlight.js para resaltar el código
+        });
+    </script>
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <div class="menu">
+        <a href="#" onclick="mostrarSeccion('descripcion')">Descripción y Objetivos</a>
+        <a href="#" onclick="mostrarSeccion('cronograma')">Cronograma</a>
+        <a href="#" onclick="mostrarSeccion('diseno_bd')">Diseño de Base de Datos</a>
+        <a href="#" onclick="mostrarSeccion('uml')">Diagramas UML</a>
+        <a href="#" onclick="mostrarSeccion('manual')">Manual de Uso</a>
+        <a href="#" onclick="mostrarSeccion('incidentes')">Incidentes y Problemas</a>
+    </div>
+
+    <!-- Portada inicial -->
+    <div id="portada" class="portada">
+        <h1>Desarrollo de Aplicaciones Multiplataforma</h1>
+        <p>Institut Francesc Vidal i Barraquer</p>
+        <p>UF6 Proyecto Aplicación Nutritiva con Java FX</p>
+        <p>Àlex Rodríguez Soriano</p>
+    </div>
+
+    <!-- Secciones de contenido -->
+    <div id="diseno_bd" class="content">
+        <h2>Diseño de Base de Datos</h2>
+        <h3>Modelo Conceptual (Diagrama E-R)</h3>
+        <p><img src="/HTML/conceptual_dessign_database_rodriguezAlex.jpg" alt="Diseño Conceptual Base de Datos App Java 2024"></p>
+        <h3>Modelo Lógico-Relacional</h3>
+        <p>
+            <b>USUARIOS</b> (<u>ID_Usuarios</u>, Nombre, CorreoElectronico, Password, FechaNacimiento, Peso, Altura, Genero, Edad, objetivo_diario, caloriasConsumidas)<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>USUARIOS.id_usuarios</b> es clave ajena a <b>ALIMENTOS</b><br/>
+            <b>ALIMENTOS</b> (<u>ID_Alimentos</u>, NombreAlimento, CaloriasPorGramo, PesoEnGramos, ID_UsuarioAlimento)<br/>
+            <b>RECETAS</b>(<u>ID_Receta</u>, Nombre, Descripcion, Alimentos, Porciones)<br/>
+            <b>RECETAS_USUARIOS</b> (<u>ID_Receta</u>,<u>ID_Usuario</u>)<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_receta</b> es clave ajena a <b>USUARIOS</b><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_usuarios</b> es clave ajena a <b>RECETAS</b>
+        </p>
+        <h3>Modelo Físico</h3>
+
+        <!-- Diseño Físico con "Pestaña Flotante" -->
+        <div class="pestana-flotante">
+            <div class="pestana-encabezado">
+                <strong>Código SQL para la Creacion e Insercion en la Base de Datos<strong> <!-- Título para el marco de código -->
+            </div>
+            <div class="codigo-contenido">
+                <pre><code class="SQL"> <!-- Para que marque los colorines del SQL como en el notion -->
+    ### CREACION DE BASE DE DATOS ###
+
+    -- Tabla de Usuarios
+    CREATE TABLE Usuarios (
+        ID_Usuarios INT AUTO_INCREMENT PRIMARY KEY,
+        Nombre VARCHAR(50),
+        CorreoElectronico VARCHAR(100) UNIQUE,
+        Password VARCHAR(30),
+        FechaNacimiento DATE,
+        Peso DECIMAL(5,2),
+        Altura INT(3),
+        Genero VARCHAR(9),
+        Edad INT,
+        objetivo_diario INT,
+        caloriasConsumidas INT
+    );
+    
+    -- Tabla de Alimentos
+    CREATE TABLE Alimentos (
+        ID_Alimentos INT AUTO_INCREMENT PRIMARY KEY,
+        NombreAlimento VARCHAR(100),
+        CaloriasPorGramo INT(4),
+        PesoEnGramos INT(3),
+        ID_UsuarioAlimento INT,
+        FOREIGN KEY (ID_UsuarioAlimento) REFERENCES Usuarios(ID_Usuarios) 
+        ON DELETE CASCADE
+    );
+    
+    -- Tabla de Recetas
+    CREATE TABLE Recetas(
+        ID_Receta INT AUTO_INCREMENT PRIMARY KEY,
+        Nombre VARCHAR(100),
+        Descripcion VARCHAR(255),
+        Alimentos VARCHAR(255),
+        Porciones INT
+    );
+    
+    -- Tabla Relacion Recetas Usuarios
+    CREATE TABLE Recetas_Usuarios(
+        ID_Receta INT,
+        ID_Usuario INT,
+        PRIMARY KEY (ID_Receta, ID_Usuario),
+        FOREIGN KEY (ID_Receta) REFERENCES Recetas(ID_Receta),
+        FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuarios)
+        ON DELETE CASCADE
+    );
+    
+    ### INSERCION DE LAS RECETAS EN LA BD ###
+    
+    INSERT INTO Recetas (Nombre, Descripcion, Alimentos, CaloriasTotales, Porciones) 
+    VALUES 
+    ('Ensalada César', 'Ensalada con pollo y aderezo César', 'Lechuga, Pollo, Aderezo César', 300, 2),
+    ('Spaghetti Carbonara', 'Spaghetti con salsa carbonara', 'Spaghetti, Huevos, Tocino, Queso', 600, 4),
+    ('Pizza Margherita', 'Pizza con queso y tomate', 'Masa de pizza, Queso, Tomate', 700, 8),
+    ('Tortilla de Patatas', 'Tortilla tradicional con patatas y huevos', 'Patatas, Huevos, Cebolla', 400, 4),
+    ('Macarrones con Salsa de Tomate', 'Macarrones con salsa de tomate', 'Macarrones, Tomate, Queso', 450, 4),
+    ('Kebab de Pollo', 'Kebab con pollo y vegetales', 'Pollo, Tomate, Lechuga, Cebolla', 550, 2),
+    ('Chili con Carne', 'Plato picante con carne y frijoles', 'Carne de res, Frijoles, Tomate, Chile', 600, 6),
+    ('Sopa de Calabaza', 'Sopa cremosa de calabaza', 'Calabaza, Cebolla, Nata', 200, 4),
+    ('Burritos de Ternera', 'Burritos rellenos de ternera y vegetales', 'Ternera, Tortillas de maíz, Lechuga', 650, 4),
+    ('Tacos de Pescado', 'Tacos con pescado y vegetales', 'Pescado, Tortillas de maíz, Tomate, Cebolla', 350, 2),
+    ('Curry de Pollo', 'Curry suave con pollo y arroz', 'Pollo, Arroz, Leche de coco, Curry', 500, 4),
+    ('Sushi Maki', 'Sushi con salmón y arroz', 'Arroz, Salmón, Algas', 300, 6),
+    ('Hamburguesa Clásica', 'Hamburguesa con carne de res', 'Carne de res, Pan de hamburguesa, Queso, Tomate', 800, 4);                    
+                </code></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secciones adicionales -->
+    <div id="descripcion" class="content">
+        <h2>Descripción y Objetivos del Proyecto</h2>
+            <p>
+            Esta aplicación es una herramienta de seguimiento y gestión de la dieta que ofrece tres funcionalidades básicas pero aplicables al día a día.<br/><br/>
+            En primer lugar, cuenta con una pestaña donde los usuarios pueden calcular su consumo diario de calorías según su altura, edad, género y peso. Este valor es el resultado de un cálculo donde se tienen en cuenta esas variables. Además, el usuario tendrá que seleccionar cuál es su objetivo y su actividad física para poder determinar la cantidad de calorías que debe ingerir para cumplir sus metas.<br/><br/>
+            El segundo apartado de la aplicación consistirá en introducir alimentos a una lista con su nombre, calorías por 100 gramos de alimento y los gramos ingeridos. Estos alimentos se almacenarán en una lista, los cuales podrán ser modificados y eliminados en otra pestaña.<br/><br/>
+            Por cada alimento añadido, la aplicación suma la cantidad de calorías ingeridas basándose en la información que le hemos proporcionado al introducirlo a la lista. Esto permite tener un control de las calorías consumidas para no pasarse del límite u objetivo diario establecido posteriormente.<br/><br/>
+            El tercer y último apartado característico de la aplicación consiste en un seleccionador de recetas. Estas recetas ya vienen establecidas en la aplicación y permite a los usuarios guardarlas o bien dejarlas de guardar.<br/><br/>
+            Cada usuario puede visualizar y modificar su nombre, apellido, dirección de correo electrónico, contraseña, peso, altura, género y edad en su perfil.
+            </p>
+    </div>
+
+    <div id="cronograma" class="content">
+        <h2>Cronograma del Proyecto</h2>
+        <!-- Inserto documentos con el IFRAME ya que facilita mucho el trabajo, en vez de enlazar el documento en otra pestaña, hago que se muestre con el iframe en esta ventana, así queda más bonito -->
+        <iframe 
+            src="https://docs.google.com/spreadsheets/d/1FV_v1DD4jXQ73xhGbZZ30OoE3_rJPBDu1lIpf2vDGIw/preview?usp=sharing" 
+            width="100%" 
+            height="1600px" 
+            frameborder="0" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <div id="uml" class="content">
+        <h2>Diagramas UML</h2>
+        <h3>Diagrama de Clases</h3>
+        <p><img src="/HTML/Classes_Diagrama_RodriguezAlex.jpeg" alt="Diagrama de Clases App Java 2024"></p>
+        <h3>Diagrama de Uso</p>
+        <p>Falta Actualizar</p>
+    </div>
+
+    <div id="manual" class="content">
+        <h2>Manual Básico de Uso</h2>
+        <iframe src="/HTML/PROJECTE 2024 JAVA FX.pdf" width="50%" height="1200px"></iframe>
+    </div>
+
+    <div id="incidentes" class="content">
+        <h2>Incidentes y Problemas</h2>
+        <p>falta enlazar un documento con los problemas o bien hacer un listado en HTML</p>
+    </div>
+</body>
+</html>
