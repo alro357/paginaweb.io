@@ -59,11 +59,11 @@
         <p>
             <b>USUARIOS</b> (<u>ID_Usuarios</u>, Nombre, CorreoElectronico, Password, FechaNacimiento, Peso, Altura, Genero, Edad, objetivo_diario, caloriasConsumidas)<br/>
             <b>ALIMENTOS</b> (<u>ID_Alimentos</u>, NombreAlimento, CaloriasPorGramo, PesoEnGramos, ID_UsuarioAlimento)<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<b>ALIMENTOS.id_UsuarioAlimento</b> es clave ajena a <b>ALIMENTOS</b><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>ALIMENTOS.id_UsuarioAlimento</b> es clave ajena a <b>ALIMENTOS</b><br/>
             <b>RECETAS</b>(<u>ID_Receta</u>, Nombre, Descripcion, Alimentos, Porciones)<br/>
             <b>RECETAS_USUARIOS</b> (<u>ID_Receta</u>,<u>ID_Usuario</u>)<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_receta</b> es clave ajena a <b>USUARIOS</b><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_usuarios</b> es clave ajena a <b>RECETAS</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_receta</b> es clave ajena a <b>USUARIOS</b><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_usuarios</b> es clave ajena a <b>RECETAS</b>
         </p>
         <h3>Modelo Físico</h3>
 
