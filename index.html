@@ -58,12 +58,12 @@
         <h3>Modelo Lógico-Relacional</h3>
         <p>
             <b>USUARIOS</b> (<u>ID_Usuarios</u>, Nombre, CorreoElectronico, Password, FechaNacimiento, Peso, Altura, Genero, Edad, objetivo_diario, caloriasConsumidas)<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>USUARIOS.id_usuarios</b> es clave ajena a <b>ALIMENTOS</b><br/>
             <b>ALIMENTOS</b> (<u>ID_Alimentos</u>, NombreAlimento, CaloriasPorGramo, PesoEnGramos, ID_UsuarioAlimento)<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>ALIMENTOS.id_UsuarioAlimento</b> es clave ajena a <b>ALIMENTOS</b><br/>
             <b>RECETAS</b>(<u>ID_Receta</u>, Nombre, Descripcion, Alimentos, Porciones)<br/>
             <b>RECETAS_USUARIOS</b> (<u>ID_Receta</u>,<u>ID_Usuario</u>)<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_receta</b> es clave ajena a <b>USUARIOS</b><br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_usuarios</b> es clave ajena a <b>RECETAS</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_receta</b> es clave ajena a <b>USUARIOS</b><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;<b>GUARDA.id_usuarios</b> es clave ajena a <b>RECETAS</b>
         </p>
         <h3>Modelo Físico</h3>
 
@@ -172,8 +172,8 @@
         <h2>Diagramas UML</h2>
         <h3>Diagrama de Clases</h3>
         <p><img src="Classes_Diagrama_RodriguezAlex.jpeg" alt="Diagrama de Clases App Java 2024"></p>
-        <h3>Diagrama de Uso</p>
-        <p>Falta Actualizar</p>
+        <h3>Diagrama de Uso</h3></br>
+        <p><img src="casosdus.jpeg" alt="Diagra,a de casos de uso App Java 2024"></p>
     </div>
 
     <div id="manual" class="content">
@@ -182,8 +182,8 @@
     </div>
 
     <div id="incidentes" class="content">
-        <h2>Incidentes y Problemas</h2>
-        <p>falta enlazar un documento con los problemas o bien hacer un listado en HTML</p>
+        <iframe src="PROBLEMAS EN PROYECTO 2024 JAVA FX.pdf" width="50%" height="1200px"></iframe>
+        <p></p>
     </div>
 </body>
 </html>
